@@ -3,7 +3,7 @@ let app = express();
 app.set("view engine","ejs");
 app.use(express.static("public"));
 
-app.get("/home", function(req, res){
+app.get("/TTE", function(req, res){
     res.render("landing");
 });
 
