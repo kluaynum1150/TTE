@@ -7,9 +7,17 @@
 }
 .ground{
     box-shadow: 25px 0px 20px 0px rgba(50, 50, 50, .5), -25px -25px 35px 0px rgba(50, 50, 50, .3);
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 50px;
 }
 
-#text1{
+.textColur{
+    color: white;
+    font-weight: bold;
+}
+
+#textHead{
     color: white;
     font-weight: bolder;
     font-size: 50px;
