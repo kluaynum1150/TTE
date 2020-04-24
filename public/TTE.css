@@ -1,0 +1,23 @@
+.home{
+    
+    background: #a48ed2;
+    background: linear-gradient(top, #a48ed2 0%, #f6bfea 100%);
+    background: -webkit-linear-gradient(top, #a48ed2 0%, #f6bfea 100%);
+    background: -moz-linear-gradient(top, #a48ed2 0%, #f6bfea 100%);
+}
+.ground{
+    box-shadow: 25px 0px 20px 0px rgba(50, 50, 50, .5), -25px -25px 35px 0px rgba(50, 50, 50, .3);
+}
+
+#text1{
+    color: white;
+    font-weight: bolder;
+    font-size: 50px;
+    margin-left: 12px;
+}
+
+a:link, a:visited {
+    color: white;
+    text-decoration: underline;
+    margin: 10px;
+  }
