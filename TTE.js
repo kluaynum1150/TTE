@@ -6,7 +6,8 @@ const express = require("express"),
       passportLocal = require('passport-local'),
       passportLocalMongoose = require('passport-local-mongoose'),
       user = require('./models/user'),
-      indexRoutes = require('./routes/index');
+      indexRoutes = require('./routes/index'),
+      tteRoutes = require("./routes/userPage");
 
 const app = express();
 
@@ -37,6 +38,7 @@ passport.serializeUser(user.serializeUser());
 passport.deserializeUser(user.deserializeUser());
 
 app.use("/",indexRoutes);
+app.use("/TTE",tteRoutes);
 
 app.listen(3000,function(){
     console.log('Server is started');
