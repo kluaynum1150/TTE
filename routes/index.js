@@ -13,6 +13,7 @@ router.get("/login", function(req, res){
 
 router.post('/login', passport.authenticate('local',{
     successRedirect: '/TTE',
+    failureFlash: "Incorrect username or password. Try again.",
     failureRedirect: 'login'
 }),function(req, res){
 });
