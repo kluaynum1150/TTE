@@ -25,6 +25,18 @@
                     <label for="comfirmPassword">COMFIRM PASSWORD</label>
                     <input type="password" class="form-control" name="Cpassword" required>
                 </div>
+                <div class='container' style="text-align: center;">
+                    <% if (error && error.length > 0) { %>
+                      <div class="alert alert-danger" role="alert">
+                        <%= error %>
+                      </div>
+                    <% } %>
+                    <% if (success && success.length > 0) { %>
+                      <div class="alert alert-success" role="alert">
+                        <%= success %>
+                      </div>
+                    <% } %>
+                </div>
                 <center><button style="background: #a48ed2;border-color: white;" type="submit" class="btn btn-primary">REGISTER</button></center>
               </form>
             </p>
