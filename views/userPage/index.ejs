@@ -21,7 +21,14 @@
                 <h3 class="textColur"><%= currentUser.firstname %> status <%= currentUser.status %></h3>
             </div>
             <div class="col-md-3 col-sm-6">
-                <a class="textColur btn btn-outline-dark" href="/logout">Log out</a>
+                <div class="dropdown">
+                  <button class="dropbtn">Dropdown</button>
+                  <div class="dropdown-content">
+                    <a href="/TTE/Profile">Profile</a>
+                    <a href="#">About</a>
+                    <a href="/logout">Log out</a>
+                  </div>
+                </div>
             </div>
         </div>
     </div>

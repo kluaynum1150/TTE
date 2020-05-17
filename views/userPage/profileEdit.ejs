@@ -1,0 +1,47 @@
+<%- include("../partials/header") %>
+<body class="home">
+    <div class="row justify-content-between">
+        <div class="col-md-5 col-sm-12" align="center">
+            <div class="jumbotron ground home">
+
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-0" style="margin-top: 10%" align="center">
+        </div>
+        <div class="col-md-5 col-sm-12">
+            <div class="jumbotron ground home">
+                <div>
+                    <h2 id="textHead">Edit Profile</h2>
+                </div>
+                <div>
+                    <div class="dropdown">
+                        <button class="dropbtn">Dropdown</button>
+                        <div class="dropdown-content">
+                          <a href="/TTE">Home</a>
+                          <a href="#">About</a>
+                          <a href="/logout">Log out</a>
+                        </div>
+                      </div>
+                </div>
+                <form class="textColur" style="width: 100%;" action="/TTE/profile/edit" method="POST">
+                    <div class="form-group">
+                        <label class="textColur" for="firstName">FIRSTNAME</label>
+                        <input type="text" class="form-control" name="firstName" value="<%= currentUser.firstname %>">
+                    </div>
+                    <div class="form-group">
+                        <label class="textColur" for="lastName">LASTNAME</label>
+                        <input type="text" class="form-control" name="lastName" value="<%= currentUser.lastname %>">
+                    </div>
+                    <div class="form-group">
+                        <label class="textColur" for="userName">USERNAME</label>
+                        <input type="text" class="form-control" name="username" value="<%= currentUser.username %>">
+                    </div>
+                    <div align="center">
+                        <button style="background: #a48ed2;border-color: white;" type="submit" class="btn btn-primary">SUBMIT</button>
+                        <a href="/TTE/profile" class="btn btn-primary" style="background: #a48ed2;border-color: white;">CANCEL</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<%- include("../partials/footer") %>
