@@ -3,7 +3,7 @@ const express = require('express'),
       passport = require('passport'),
       middleware = require("../middleware");
 
-router.get("/", middleware.isLoggedIn, function(req, res){
+router.get("/", middleware.isLoggedInAdmin, function(req, res){
     res.render("adminPage/index");
 });
 
