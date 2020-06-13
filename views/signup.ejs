@@ -19,11 +19,14 @@
                 </div>
                 <div class="form-group">
                     <label class="textColur" for="password">PASSWORD</label>
-                    <input type="password" class="form-control" name="password" required>
+                    <input type="password" class="form-control" id="p" name="password" required>
                 </div>
                 <div class="form-group">
                     <label for="comfirmPassword">COMFIRM PASSWORD</label>
-                    <input type="password" class="form-control" name="Cpassword" required>
+                    <input type="password" class="form-control" id="Cp" name="Cpassword" required>
+                </div>
+                <div class='container' style="text-align: center;" id="divCheckPasswordMatch">
+                    
                 </div>
                 <div class='container' style="text-align: center;">
                     <% if (error && error.length > 0) { %>
@@ -37,8 +40,25 @@
                       </div>
                     <% } %>
                 </div>
-                <center><button style="background: #a48ed2;border-color: white;" type="submit" class="btn btn-primary">REGISTER</button></center>
+                <center><button id="b" style="background: #a48ed2;border-color: white;" type="submit" class="btn btn-primary">REGISTER</button></center>
               </form>
             </p>
         </div>
 <%- include("partials/footer") %>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+      $("#Cp").keyup(function(){
+        var password = $("#p").val();
+        var confirmPassword = $("#Cp").val();
+        if (password != confirmPassword){
+          $("#b").attr("disabled",true);
+          $("#divCheckPasswordMatch").html('<div class="alert alert-danger" role="alert">Passwords do not match!</div>');
+        } else {
+          $("#b").attr("disabled",false);
+          $("#divCheckPasswordMatch").html('<div class="alert alert-success" role="alert">Passwords match.</div>');
+        }
+      });
+  });
+</script>
