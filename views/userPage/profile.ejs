@@ -7,6 +7,9 @@
             </div>
         </div>
         <div class="col-md-2 col-sm-0" style="margin-top: 10%" align="center">
+            <div class = "img-thumbnail">
+                <img src = <%= "../uploads/" + currentUser.imgProfile %> class="img-fluid img-thumbnail" style="height: 500px; width: auto;">
+            </div>
         </div>
         <div class="col-md-5 col-sm-12">
             <div class="jumbotron ground home">
@@ -30,10 +33,10 @@
                         <label class="textColur" for="lastName">LASTNAME</label>
                         <input type="text" class="form-control" name="lastName" value="<%= currentUser.lastname %>">
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label class="textColur" for="userName">USERNAME</label>
                         <input type="text" class="form-control" name="username" value="<%= currentUser.username %>">
-                    </div>
+                    </div> -->
                     <div align="right">
                         <a href="/TTE/profile/edit" class="btn btn-primary" style="background: #a48ed2;border-color: white;">EDIT</a>
                     </div>

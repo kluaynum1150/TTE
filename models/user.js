@@ -8,7 +8,7 @@ let UserSchema = new mongoose.Schema({
     lastname: String,
     tag: String,
     status: String,
-    map: String,
+    imgProfile: String,
     exp: String,
 });
 
