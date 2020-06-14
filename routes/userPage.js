@@ -80,5 +80,39 @@ router.put("/profile/edit", middleware.isLoggedIn, upload.single("imgProfile"), 
         }
     });
 });
+//change password
+router.get("/profile/edit/reset-password", middleware.isLoggedIn, function(req, res){
+    res.render("userPage/resetPassword");
+});
+
+router.post("/profile/edit/reset-password", middleware.isLoggedIn, function(req, res){
+    if(req.body.newpassword == req.body.CNpassword){
+        user.findById(req.user.id, function(err,foundUser){
+            if(err){
+                console.log("ERROR!");
+            } else{
+                foundUser.changePassword(req.body.oldpassword, req.body.newpassword, function(err){
+                    if(err){
+                        console.log(err);
+                        if(err.name === 'IncorrectPasswordError'){
+                            req.flash("error","Old password is incorrect.");
+                            res.redirect("/TTE/profile/edit/reset-password");
+                        } else{
+                            req.flash("error","Something went wrong!! Please try again after sometimes.");
+                            res.redirect("/TTE/profile/edit/reset-password");
+                        }
+                    } else {
+                        req.flash("success","Your password has been changed successfully.");
+                        res.redirect("/TTE");
+                    }
+                });
+            }
+        });
+        
+    } else{
+        req.flash('error',"Password and Confirm password isn't match.");
+        res.redirect("/profile/edit/reset-password");
+    }
+});
 
 module.exports = router;
