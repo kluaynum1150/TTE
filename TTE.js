@@ -5,6 +5,7 @@ const express = require("express"),
       passport = require('passport'),
       passportLocal = require('passport-local'),
       passportLocalMongoose = require('passport-local-mongoose'),
+      methodOverride = require("method-override"),
       user = require('./models/user'),
       indexRoutes = require('./routes/index'),
       tteRoutes = require("./routes/userPage"),
@@ -20,6 +21,7 @@ app.set("view engine","ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(flash());
+app.use(methodOverride("_method"));
 
 app.use(require("express-session")({
     secret: 'tte',

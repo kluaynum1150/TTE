@@ -11,7 +11,7 @@ const express = require('express'),
 const storage = multer.diskStorage({
     destination: "./public/uploads",
     filename: function(req, file, cb){
-        cb(null,file.fieldname + "-" + Date.now() + path.extname(file.originalname));
+        cb(null,file.fieldname + "-" + req.user.username + "-" + Date.now() + path.extname(file.originalname));
     }
 });
 
@@ -36,14 +36,45 @@ router.get("/profile", middleware.isLoggedIn, function(req, res){
 });
 
 router.get("/profile/edit", middleware.isLoggedIn, function(req, res){
-    res.render("userPage/profileEdit");
+    user.findById(req.user.id, function(err,foundUser){
+        if(err){
+            console.log("ERROR!");
+        }else{
+            res.render("userPage/profileEdit",{infoUser:foundUser});
+        }
+    });
 });
 
-router.post("/profile/edit", middleware.isLoggedIn, function(req, res){
+//edit firstname, lastname and image profile.
+router.put("/profile/edit", middleware.isLoggedIn, upload.single("imgProfile"), function(req, res){
     let id = req.user.id;
-    user.updateOne({_id:id},{$set:{firstname: req.body.firstName.trim(),lastname: req.body.lastName.trim(),username: req.body.username.trim()}}, function(err,profile){
+    let n_firstname = req.body.firstName.trim();
+    let n_lastname = req.body.lastName.trim();
+    if(req.file){
+        var n_img = req.file.filename;
+        user.findById(id, function(err, foundUser){
+            if(err){
+                res.redirect("/profile");
+            } else{
+                if(foundUser.imgProfile !== "usericon-001.png"){
+                    const imagePath = "./public/uploads/" + foundUser.imgProfile;
+                    fs.unlink(imagePath, function(err){
+                        if(err){
+                            console.log(err);
+                            res.redirect("/profile");
+                        }
+                    });
+                }
+            }
+        });
+        var n_info = {firstname: n_firstname,lastname: n_lastname,imgProfile: n_img};
+    } else{
+        var n_info = {firstname: n_firstname,lastname: n_lastname};
+    }
+    user.findByIdAndUpdate(id, n_info, function(err, update){
         if(err){
             console.log(err);
+            res.redirect("/TTE/profile");
         } else{
             res.redirect("/TTE/profile");
         }

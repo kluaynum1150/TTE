@@ -3,7 +3,9 @@
     <div class="row justify-content-between">
         <div class="col-md-5 col-sm-12" align="center">
             <div class="jumbotron ground home">
-
+                <div class = "img-thumbnail">
+                    <img src = <%= "/uploads/" + infoUser.imgProfile %> class="img-fluid img-thumbnail" style="height: auto; width: auto;">
+                </div>
             </div>
         </div>
         <div class="col-md-2 col-sm-0" style="margin-top: 10%" align="center">
@@ -23,19 +25,23 @@
                         </div>
                       </div>
                 </div>
-                <form class="textColur" style="width: 100%;" action="/TTE/profile/edit" method="POST">
+                <form class="textColur" style="width: 100%;" action="/TTE/profile/edit?_method=PUT" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label class="textColur" for="firstName">FIRSTNAME</label>
-                        <input type="text" class="form-control" name="firstName" value="<%= currentUser.firstname %>">
+                        <input type="text" class="form-control" name="firstName" value="<%= infoUser.firstname %>">
                     </div>
                     <div class="form-group">
                         <label class="textColur" for="lastName">LASTNAME</label>
-                        <input type="text" class="form-control" name="lastName" value="<%= currentUser.lastname %>">
+                        <input type="text" class="form-control" name="lastName" value="<%= infoUser.lastname %>">
                     </div>
                     <div class="form-group">
+                        <label for="imgProfile">Image</label>
+                        <input type="file" class="form-control" name="imgProfile" accept="image/*">
+                    </div>
+                    <!-- <div class="form-group">
                         <label class="textColur" for="userName">USERNAME</label>
                         <input type="text" class="form-control" name="username" value="<%= currentUser.username %>">
-                    </div>
+                    </div> -->
                     <div align="center">
                         <button style="background: #a48ed2;border-color: white;" type="submit" class="btn btn-primary">SUBMIT</button>
                         <a href="/TTE/profile" class="btn btn-primary" style="background: #a48ed2;border-color: white;">CANCEL</a>
