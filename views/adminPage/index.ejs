@@ -17,7 +17,9 @@
             <div class="col-md-3 col-sm-6">
                 <p> </p>
             </div>
-            <div class="col-md-3 col-sm-6"><h3 class="textColur">Welcome <%= currentUser.firstname %> status <%= currentUser.username %></h3></div>
+            <div class="col-md-3 col-sm-6">
+              <h3 class="textColur">Welcome <%= currentUser.firstname %> status <%= currentUser.username %></h3>
+            </div>
             <div class="col-md-3 col-sm-6">
               <div class="dropdown">
                 <button class="dropbtn">Dropdown</button>
@@ -27,7 +29,13 @@
                   <a href="/logout">Log out</a>
                 </div>
               </div>
-          </div>
+            </div>
+            
+        </div>
+        <div class="container" style="width: 50%;">
+            <a href="/admin/addCheckpoint" class="btn btn-primary btn-lg btn-block" role="button">Create new checkpoint</a>
+            <a href="/admin/editCheckpoint" class="btn btn-primary btn-lg btn-block" role="button">Edit checkpoint</a>
+            <a href="/admin/deleteCheckpoint" class="btn btn-primary btn-lg btn-block" role="button">Delete checkpoint</a>
         </div>
     </div>
 <%- include("../partials/header") %>

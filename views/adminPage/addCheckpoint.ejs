@@ -1,0 +1,39 @@
+<%- include("../partials/header") %>
+<body class="home">
+    <div class="jumbotron ground home">
+        <h2 id="textHead">Create new checkpoint</h2>
+        <form class="textColur" style="width: 100%;" action="/admin/addCheckpoint" method="POST">
+            <div class="form-group">
+                <label class="textColur" for="nameCheckpoint">Name of Checkpoint</label>
+                <input type="text" class="form-control" name="nameCheckpoint" required>
+            </div>
+            <div class="form-group">
+                <label class="textColur" for="level">Name of map</label>
+                <select class="custom-select" name="level" required>
+                  <option value="">Choose...</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="textColur" for="information">Information</label>
+                <textarea class="form-control" name="information" rows="8" cols="80" required></textarea>
+            </div>
+            
+            <div align="center">
+                <button style="background: #a48ed2;border-color: white;" type="submit" class="btn btn-primary">SUBMIT</button>
+                <a href="/admin" class="btn btn-primary" style="background: #a48ed2;border-color: white;">CANCEL</a>
+            </div>
+        </form>
+    </div>
+    <script>
+        // Replace the <textarea id="information"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace('information');
+        function CKupdate() {
+            for (instance in CKEDITOR.instances)
+            CKEDITOR.instances[instance].updateElement();
+        }
+    </script>
+<%- include("../partials/footer") %>
