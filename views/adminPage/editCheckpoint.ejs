@@ -1,29 +1,25 @@
 <%- include("../partials/header") %>
 <body class="home">
     <div class="jumbotron ground home">
-        <h2 id="textHead">Create new checkpoint</h2>
-        <form class="textColur" style="width: 100%;" action="/admin/addCheckpoint" method="POST">
+        <h2 id="textHead">Edit a checkpoint</h2>
+        <form class="textColur" style="width: 100%;" action="/admin/editCheckpoint/<%= info_map._id %>?_method=PUT" method="POST">
             <div class="form-group">
                 <label class="textColur" for="nameCheckpoint">Name of Checkpoint</label>
-                <input type="text" class="form-control" name="nameCheckpoint" required>
+                <input type="text" class="form-control" name="nameCheckpoint" value="<%= info_map.name%>" required>
             </div>
             <div class="form-group">
                 <label class="textColur" for="level">Name of map</label>
                 <select class="custom-select" name="level" required>
-                  <option value="">Choose...</option>
-                  <option value="egg">egg</option>
-                  <option value="cat">cat</option>
-                  <option value="dog">dog</option>
+                  <option value="<%= info_map.level%>"><%= info_map.level%></option>
                 </select>
             </div>
             <div class="form-group">
                 <label class="textColur" for="information">Information</label>
-                <textarea class="form-control" name="information" rows="8" cols="80" required></textarea>
+                <textarea class="form-control" name="information" rows="8" cols="80" required><%= info_map.information%></textarea>
             </div>
-            
             <div align="center">
                 <button style="background: #a48ed2;border-color: white;" type="submit" class="btn btn-primary">SUBMIT</button>
-                <a href="/admin" class="btn btn-primary" style="background: #a48ed2;border-color: white;">CANCEL</a>
+                <a href="/admin/editOrDeleteCheckpoint" class="btn btn-primary" style="background: #a48ed2;border-color: white;">CANCEL</a>
             </div>
         </form>
     </div>

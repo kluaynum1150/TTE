@@ -21,13 +21,19 @@
               <h3 class="textColur">Welcome <%= currentUser.firstname %> status <%= currentUser.username %></h3>
             </div>
             <div class="col-md-3 col-sm-6">
-              <a href="/logout" class="btn btn-primary" style="background: #a48ed2;border-color: white;">Log out</a>
-              <a href="/admin" class="btn btn-primary" style="background: #a48ed2;border-color: white;">Back</a>
+                <a href="/logout" class="btn btn-primary" style="background: #a48ed2;border-color: white;">Log out</a>
+                <a href="/admin" class="btn btn-primary" style="background: #a48ed2;border-color: white;">Back</a>
             </div>
         </div>
-        <div class="container" style="width: 50%;">
-            <a href="/admin/addCheckpoint" class="btn btn-primary btn-lg btn-block" role="button">Create new checkpoint</a>
-            <a href="/admin/editOrDeleteCheckpoint" class="btn btn-primary btn-lg btn-block" role="button">Edit or delete checkpoint</a>
-        </div>
+        <hr>
+        <% allMap.forEach(function(allMap){ %>
+            <div class="container" style="width: 50%;">
+                <h3 class="textColur" style="display: inline;"><%= allMap.level %> : <%= allMap.name %></h3>
+                <a class="btn btn-warning" href="/admin/editCheckpoint/<%= allMap._id %>">Edit</a>
+                <form style="display: inline;" action="/admin/deleteCheckpoint/<%= allMap._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        <% });%>
     </div>
-<%- include("../partials/header") %>
+<%- include("../partials/footer") %>
