@@ -5,6 +5,7 @@ const express = require('express'),
       path = require("path"),
       fs = require("fs"),
       user = require("../models/user"),
+      map = require("../models/map"),
       middleware = require("../middleware");
 
 //ที่เก็บรูป
@@ -28,11 +29,29 @@ const imageFilter = function(req, file, cb){
 const upload = multer({storage: storage, fileFilter: imageFilter});
 
 router.get("/", middleware.isLoggedIn, function(req, res){
-    res.render("userPage/index");
+    map.find({level: req.user.status}, function(err,foundMap){
+        if(err){
+            console.log(err);
+        } else{
+            res.render("userPage/index",{allMap:foundMap});
+        }
+    });
 });
 
 router.get("/profile", middleware.isLoggedIn, function(req, res){
     res.render("userPage/profile");
+});
+
+//ไปหน้าบทเรียน
+router.get("/:map_id", middleware.isLoggedIn, function(req,res){
+    map.findById(req.params.map_id, function(err,found){
+        if(err){
+            console.log(err);
+            res.redirect("/TTE");
+        } else{
+            res.render("userPage/showMap",{info_map:found});
+        }
+    });
 });
 
 router.get("/profile/edit", middleware.isLoggedIn, function(req, res){

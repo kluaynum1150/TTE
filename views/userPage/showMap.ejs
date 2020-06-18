@@ -31,11 +31,12 @@
                 </div>
             </div>
         </div>
-        <hr>
-        <div class="container" style="width: 50%;">
-          <% allMap.forEach(function(allMap){ %>
-            <a href="/TTE/<%= allMap._id%>" class="btn btn-primary btn-lg btn-block" role="button"><%= allMap.level%>:<%= allMap.name%></a>
-          <% }); %>
+        <div class="container">
+            <h1 id="textHead"><%= info_map.name%></h1>
+            <div id="show" class="jumbotron">
+              <%- info_map.information%>
+            </div>
         </div>
     </div>
-<%- include("../partials/header") %>
+
+<%- include("../partials/footer") %>
