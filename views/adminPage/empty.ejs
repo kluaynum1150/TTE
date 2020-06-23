@@ -1,0 +1,66 @@
+<%- include("../partials/header") %>
+<body class="home">
+    <div class="jumbotron ground home">
+        <div class='container' style="text-align: center;">
+            <% if (error && error.length > 0) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } %>
+            <% if (success && success.length > 0) { %>
+                <div class="alert alert-success" role="alert">
+                    <%= success %>
+                </div>
+            <% } %>
+        </div>
+        <form>
+            <div class="form-group">
+                <label class="textColur" for="numExam">Input number of exam</label>
+                <input type="text" id="i" class="form-control" name="numExam" value="1" required>
+            </div>
+            <input type="button" id="b" value="show" onclick="getForm(numExam.value)" style="background: #a48ed2;border-color: white;" class="btn btn-primary">
+        </form>
+        <hr>
+        <div class="textColur" id="test2">
+            
+        </div>
+        <form class="textColur" id="test" style="width: 100%;" action="/admin/<%= info_id%>/addQuesions" method="POST">
+            
+        </form>
+        <!-- <iframe style="width: 100%; height: 500px; border:none;" src="/admin/empty2" name="iframe_a"></iframe> -->
+        <!-- <center><button style="background: #a48ed2;border-color: white;" type="submit" class="btn btn-primary">SUBMIT</button></center> -->
+    </div>
+    
+    <script>
+        function getForm(numExam){
+            document.getElementById("i").disabled = true;
+            document.getElementById("b").disabled = true;
+            var text = '';
+            var text2 = '<h2>Add new quesions.</h2>';
+            var t = document.getElementById("test2");
+            var t2 = document.getElementById("test");
+            text += '<input class="form-control" type="text" name="numQues" hidden value="'+numExam+'">';
+            text += '<input class="form-control" type="text" name="idMap" hidden value="<%= info_id%>"><hr>';
+            for(var i = 1;i<=numExam;i++){
+                text += '<div class="form-group"><tr>';
+                text += '<p style="display: inline;">Quesion'+i+'</p>';
+                text += '<textarea style="display: inline;" class="form-control" rows="2" cols="60" wrap="virtual" name="q'+i+'" required></textarea>';
+                // text += '</tr><tr>';
+                text += '<p>เลือกคำตอบที่ถูกต้อง</p>';
+                for(var j = 1;j<=4;j++){
+                    // text += '<div class="form-group>';
+                    text += '<p style="display: inline;">Choice'+ j +'</p>';
+                    text += '<input style="display: inline;" class="form-control" type="text" size="50" name="q'+i+'c'+ j +'" required>';
+                    text += '<input style="display: inline;" class="form-control" type="radio" size="50" name="aq'+ i +'" value="a'+ j +'">';
+                    // text += '</div>';
+                };
+                text += '</div>';
+                text += '<hr>';
+            };
+            text += '<div><button style="background: #a48ed2;border-color: white;" type="submit" class="btn btn-primary">SUBMIT</button></div>';
+            t.innerHTML = text2;
+            t2.innerHTML = text;
+        };
+    </script>
+<%- include("../partials/footer") %>
+

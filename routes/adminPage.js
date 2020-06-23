@@ -3,6 +3,8 @@ const express = require('express'),
       passport = require('passport'),
       user = require("../models/user"),
       map = require("../models/map"),
+      levels = require("../models/level"),
+      ques = require("../models/quesions"),
       middleware = require("../middleware");
 
 router.get("/", middleware.isLoggedInAdmin, function(req, res){
@@ -34,12 +36,63 @@ router.get("/addCheckpoint", middleware.isLoggedInAdmin, function(req,res){
 
 router.post("/addCheckpoint", middleware.isLoggedInAdmin, function(req,res){
     let n_checkpoint = {name: req.body.nameCheckpoint, level: req.body.level, information: req.body.information};
-    map.create(n_checkpoint, function(err,newCheckpoint){
+    levels.findOne({nameLevel: req.body.level}, function(err,found){
         if(err){
             console.log(err);
             res.redirect("/admin");
         } else{
-            req.flash("success","Add a new checkpoint success.");
+            map.create(n_checkpoint, function(err,newCheckpoint){
+                if(err){
+                    console.log(err);
+                    res.redirect("/admin");
+                } else{
+                    found.maps.push(newCheckpoint);
+                    found.save();
+                    req.flash("success","Add a new checkpoint success.");
+                    res.redirect("/admin/"+newCheckpoint._id+"/addQuesions");
+                    // res.redirect("/admin");
+                }
+            });
+        }
+    });
+});
+
+//add Quesion 
+
+router.get("/:map_id/addQuesions", middleware.isLoggedInAdmin, function(req,res){
+    res.render("adminPage/empty",{info_id:req.params.map_id});
+});
+
+router.post("/:map_id/addQuesions", middleware.isLoggedInAdmin, function(req,res){
+    var idMap = req.body.idMap;
+    var numQues = req.body.numQues;
+    var info = req.body;
+    map.findById(idMap, async function(err,found){
+        if(err){
+            console.log(err);
+            res.redirect("/admin");
+        } else{
+            for(var i = 1;i<=numQues;i++){
+                let n_ques = {
+                    idMap: idMap,
+                    level: found.level,
+                    quesion: info['q'+i],
+                    choice: {
+                        one: info['q'+i+'c1'],
+                        two: info['q'+i+'c2'],
+                        three: info['q'+i+'c3'],
+                        four: info['q'+i+'c4']
+                    },
+                    answer: info['aq'+i]
+                };
+                await ques.create(n_ques, async function(err,added){
+                    if(err){
+                        console.log(err);
+                        res.redirect("/admin");
+                    }
+                });
+            };
+            req.flash("success","Add a new quesios success.");
             res.redirect("/admin");
         }
     });
@@ -92,6 +145,15 @@ router.delete("/deleteCheckpoint/:map_id", middleware.isLoggedInAdmin, function(
             res.redirect("/admin/editOrDeleteCheckpoint");
         }
     });
+});
+
+//get empty
+// router.get("/empty", middleware.isLoggedInAdmin, function(req,res){
+//     res.render("adminPage/empty");
+// });
+
+router.get("/empty2", middleware.isLoggedInAdmin, function(req,res){
+    res.render("adminPage/empty2");
 });
 
 module.exports = router;
