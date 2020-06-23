@@ -98,6 +98,72 @@ router.post("/:map_id/addQuesions", middleware.isLoggedInAdmin, function(req,res
     });
 });
 
+//เพิ่มข้อสอบใหม่อีกที
+router.get("/addNewQuesion", middleware.isLoggedInAdmin, function(req,res){
+    map.find({}, function(err,found){
+        if(err){
+            console.log(err);
+            res.redirect("/admin");
+        } else{
+            res.render("adminPage/chooseCheckpoint2",{allMap:found});
+        }
+    });
+});
+
+router.get("/addNewQuesion/:map_id", middleware.isLoggedInAdmin, function(req,res){
+    ques.find({idMap: req.params.map_id}, function(err,allQues){
+        if(err){
+            console.log(err);
+            res.redirect("/admin");
+        } else{
+            let n = 1;
+            let maxValue = 0;
+            let idMaxValue = "";
+            var emp;
+            allQues.forEach(function(allQues){
+                emp = allQues.value * n;
+                if(emp > maxValue){
+                    maxValue = emp;
+                }
+            });
+            res.render("adminPage/addNewQuesion",{map_id: req.params.map_id, maxValue: maxValue});
+        }
+    });
+});
+
+router.post("/addNewQuesion/:map_id", middleware.isLoggedInAdmin, function(req,res){
+    map.findById(req.params.map_id, function(err,found){
+        if(err){
+            console.log(err);
+            res.redirect("/admin");
+        } else{
+            let value = (req.body.maxValue * 1) + 1;
+            let n_ques = {
+                idMap: found._id,
+                level: found.level,
+                value: value,
+                quesion: req.body.Quesion,
+                choice: {
+                    one: req.body.c1,
+                    two: req.body.c2,
+                    three: req.body.c3,
+                    four: req.body.c4
+                },
+                answer: req.body.a
+            };
+            ques.create(n_ques, function(err){
+                if(err){
+                    console.log(err);
+                    res.redirect("/admin");
+                } else{
+                    req.flash("success","Add a new quesios success.");
+                    res.redirect("/admin/addNewQuesion/"+req.params.map_id);
+                }
+            });
+        }
+    });
+});
+
 //find all checkpoint
 router.get("/editOrDeleteCheckpoint", middleware.isLoggedInAdmin, function(req,res){
     map.find({},function(err,found){
@@ -136,11 +202,32 @@ router.put("/editCheckpoint/:map_id", middleware.isLoggedInAdmin, function(req,r
 
 //delete checkpoint
 router.delete("/deleteCheckpoint/:map_id", middleware.isLoggedInAdmin, function(req,res){
-    map.findByIdAndRemove(req.params.map_id, function(err){
+    map.findByIdAndRemove(req.params.map_id, function(err,mapDelete){
         if(err){
             console.log(err);
             res.redirect("/admin");
         } else{
+            levels.findOne({nameLevel: mapDelete.level}, function(err,found){
+                if(err){
+                    console.log(err);
+                    res.redirect("/admin");
+                } else{
+                    found.maps.splice(found.maps.indexOf(mapDelete._id),1);
+                    found.save();
+                }
+            });
+            ques.find({idMap:mapDelete._id}, function(err,allQues){
+                if(err){
+                    console.log(err);
+                    res.redirect("/admin");
+                } else{
+                    allQues.forEach(function(allQues){
+                        allQues.deleteOne(function(err){
+                            if(err){ console.log(err); }
+                        });
+                    });
+                }
+            });
             req.flash("success","Delete a checkpoint success.");
             res.redirect("/admin/editOrDeleteCheckpoint");
         }
