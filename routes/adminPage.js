@@ -58,7 +58,6 @@ router.post("/addCheckpoint", middleware.isLoggedInAdmin, function(req,res){
 });
 
 //add Quesion 
-
 router.get("/:map_id/addQuesions", middleware.isLoggedInAdmin, function(req,res){
     res.render("adminPage/empty",{info_id:req.params.map_id});
 });
@@ -76,6 +75,7 @@ router.post("/:map_id/addQuesions", middleware.isLoggedInAdmin, function(req,res
                 let n_ques = {
                     idMap: idMap,
                     level: found.level,
+                    value: i,
                     quesion: info['q'+i],
                     choice: {
                         one: info['q'+i+'c1'],
@@ -147,10 +147,52 @@ router.delete("/deleteCheckpoint/:map_id", middleware.isLoggedInAdmin, function(
     });
 });
 
-//get empty
-// router.get("/empty", middleware.isLoggedInAdmin, function(req,res){
-//     res.render("adminPage/empty");
-// });
+//edit quesions
+router.get("/editCheckpoint/:map_id/editOrDeleteQuesions", middleware.isLoggedInAdmin, function(req,res){
+    ques.find({idMap: req.params.map_id}, function(err,found){
+        if(err){
+            console.log(err);
+            res.redirect("/admin");
+        } else{
+            res.render("adminPage/editQuesion",{allQues: found,map_id: req.params.map_id});
+        }
+    });
+});
+
+router.put("/editCheckpoint/:map_id/editOrDeleteQuesions/:ques_id", middleware.isLoggedInAdmin, function(req,res){
+    let n_ques = {
+        quesion: req.body.Quesion,
+        choice: {
+            one: req.body.c1,
+            two: req.body.c2,
+            three: req.body.c3,
+            four: req.body.c4,
+        },
+        answer: req.body.a
+    };
+    ques.findByIdAndUpdate(req.params.ques_id, n_ques, function(err){
+        if(err){
+            console.log(err);
+            res.redirect("/admin");
+        } else{
+            req.flash("success","Edit a quesion success.");
+            res.redirect("/admin/editCheckpoint/"+req.params.map_id+"/editOrDeleteQuesions");
+        }
+    });
+});
+
+//delete quesions
+router.delete("/editCheckpoint/:map_id/editOrDeleteQuesions/:ques_id", middleware.isLoggedInAdmin, function(req,res){
+    ques.findByIdAndRemove(req.params.ques_id, function(err){
+        if(err){
+            console.log(err);
+            res.redirect("/admin");
+        } else{
+            req.flash("success","Delete a quesion success.");
+            res.redirect("/admin/editCheckpoint/"+req.params.map_id+"/editOrDeleteQuesions");
+        }
+    });
+});
 
 router.get("/empty2", middleware.isLoggedInAdmin, function(req,res){
     res.render("adminPage/empty2");

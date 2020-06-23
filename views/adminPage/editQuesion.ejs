@@ -1,0 +1,76 @@
+<%- include("../partials/header") %>
+<body class="home">
+    <div class="jumbotron ground home">
+        <div class='container' style="text-align: center;">
+            <% if (error && error.length > 0) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } %>
+            <% if (success && success.length > 0) { %>
+                <div class="alert alert-success" role="alert">
+                    <%= success %>
+                </div>
+            <% } %>
+        </div>
+        <h2 id="textHead">Edit and delete quesions.</h2><hr>
+        <div class='container'>
+        <% allQues.forEach(function(allQues){ %>
+            <form class="textColur" style="width: 50%;" action="/admin/editCheckpoint/<%= map_id%>/editOrDeleteQuesions/<%= allQues._id%>?_method=PUT" method="POST">
+                <div class="form-group">
+                    <label style="display: inline;" class="textColur" for="Quesion">Quesion</label>
+                    <textarea style="width: 50%;" class="form-control" name="Quesion" rows="8" cols="80" required><%= allQues.quesion%></textarea>
+                </div>
+                
+                <div class="form-grop">
+                    <label style="display: inline;" class="textColur" for="c1">choice 1</label>
+                    <input style="display: inline;" class="form-control" type="text" name="c1" value="<%= allQues.choice.one%>" required>
+                    <% if(allQues.answer == 'a1'){ %>
+                        <input style="display: inline;" class="form-control" type="radio" name="a" value="a1" checked>
+                    <% } else{ %>
+                        <input style="display: inline;" class="form-control" type="radio" name="a" value="a1">
+                    <% } %>
+                </div>
+                <div class="form-grop">
+                    <label style="display: inline;" class="textColur" for="c2">choice 2</label>
+                    <input style="display: inline;" class="form-control" type="text" name="c2" value="<%= allQues.choice.two%>" required>
+                    <% if(allQues.answer == 'a2'){ %>
+                        <input style="display: inline;" class="form-control" type="radio" name="a" value="a2" checked>
+                    <% } else{ %>
+                        <input style="display: inline;" class="form-control" type="radio" name="a" value="a2">
+                    <% } %>
+                </div>
+                <div class="form-grop">
+                    <label style="display: inline;" class="textColur" for="c3">choice 3</label>
+                    <input style="display: inline;" class="form-control" type="text" name="c3" value="<%= allQues.choice.three%>" required>
+                    <% if(allQues.answer == 'a3'){ %>
+                        <input style="display: inline;" class="form-control" type="radio" name="a" value="a3" checked>
+                    <% } else{ %>
+                        <input style="display: inline;" class="form-control" type="radio" name="a" value="a3">
+                    <% } %>
+                </div>
+                <div class="form-grop">
+                    <label style="display: inline;" class="textColur" for="c4">choice 4</label>
+                    <input style="display: inline;" class="form-control" type="text" name="c4" value="<%= allQues.choice.four%>" required>
+                    <% if(allQues.answer == 'a4'){ %>
+                        <input style="display: inline;" class="form-control" type="radio" name="a" value="a4" checked>
+                    <% } else{ %>
+                        <input style="display: inline;" class="form-control" type="radio" name="a" value="a4">
+                    <% } %>
+                </div>
+                <div align="center">
+                    <button style="display: inline;" type="submit" class="btn btn-warning">EDIT</button>
+                    
+                </div>
+            </form>
+            <form style="display: inline;" class="textColur" action="/admin/editCheckpoint/<%= map_id%>/editOrDeleteQuesions/<%= allQues._id%>?_method=DELETE" method="POST">
+                <button style="display: inline;" type="submit" class="btn btn-danger">DELETE</button>
+            </form>
+            <hr>
+        <% });%>
+        </div>
+        <div align="center">
+            <a href="/admin/editOrDeleteCheckpoint" class="btn btn-primary" style="background: #a48ed2;border-color: white;">OK</a>
+        </div>
+    </div>
+<%- include("../partials/footer") %>
